@@ -30,7 +30,7 @@ return {
   end,
   keys = {
     {
-      '<leader>fm',
+      '<leader>-',
       function()
         MiniFiles.open()
       end,

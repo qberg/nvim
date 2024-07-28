@@ -13,16 +13,28 @@ return {
   opts = {
     workspaces = {
       {
-        name = 'aws',
-        path = '~/notes/vaults/aws',
+        name = 'cs',
+        path = '~/notes/vaults/cs',
       },
       {
-        name = 'machine-learning',
-        path = '~/notes/vaults/machine-learning/',
+        name = 'math',
+        path = '~/notes/vaults/math/',
       },
       {
-        name = 'programming-languages',
-        path = '~/notes/vaults/prog-languages/',
+        name = 'baduk',
+        path = '~/notes/vaults/baduk/',
+      },
+      {
+        name = 'phil',
+        path = '~/notes/vaults/phil/',
+      },
+      {
+        name = 'fin',
+        path = '~/notes/vaults/math/',
+      },
+      {
+        name = 'projects',
+        path = '~/notes/vaults/projects/',
       },
     },
   },
