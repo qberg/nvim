@@ -26,8 +26,16 @@ return {
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
           map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
           map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map(
+            '<leader>ds',
+            require('telescope.builtin').lsp_document_symbols,
+            '[D]ocument [S]ymbols'
+          )
+          map(
+            '<leader>ws',
+            require('telescope.builtin').lsp_dynamic_workspace_symbols,
+            '[W]orkspace [S]ymbols'
+          )
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -35,7 +43,8 @@ return {
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client.server_capabilities.documentHighlightProvider then
-            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+            local highlight_augroup =
+              vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
               group = highlight_augroup,
@@ -66,7 +75,8 @@ return {
       })
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      capabilities =
+        vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       --  Add any additional override configuration in the following tables. Available keys are:
       --  - cmd (table): Override the default command used to start the server
       --  - filetypes (table): Override the default list of associated filetypes for the server
@@ -103,8 +113,32 @@ return {
             'objcpp',
             'cuda',
           },
+          cmd = {
+            'clangd',
+            '--background-index',
+            '--clang-tidy',
+            '--header-insertion=iwyu',
+            '--completion-style=detailed',
+            '--function-arg-placeholders',
+            '--fallback-style=llvm',
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
         },
 
+        -- PHP
+        phpactor = {
+          filetypes = { 'php' },
+          init_options = {
+            ['completion.import_globals'] = true,
+          },
+          settings = {
+            ['phpactor.completion.global_search'] = true,
+          },
+        },
         -- Rust
         rust_analyzer = {
           settings = {
@@ -351,27 +385,58 @@ return {
 
         -- GraphQL
         graphql = {
-          filetypes = { 'graphql', 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
+          filetypes = {
+            'graphql',
+            'typescript',
+            'javascript',
+            'typescriptreact',
+            'javascriptreact',
+          },
         },
       }
 
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'prettier', -- Used to format web dev things
-        'prettierd',
-        --'rustfmt', -- Rust formatting
-        'shfmt', -- Bash formatting
-        'taplo', -- toml formatting
-        'sql-formatter', -- SQL formatting
-        -- Go formatting
-        'goimports-reviser',
-        'gofumpt',
-        'golines',
-        -- Python formatting
-        'isort',
-        'black',
+        -- Formatters
+        'stylua', -- Lua
+        'prettier', -- Web
+        'prettierd', -- Faster prettier
+        'clang-format', -- C/C++
+        'rustfmt', -- Rust
+        'gofumpt', -- Go
+        'goimports', -- Go
+        'black', -- Python
+        'isort', -- Python imports
+        'ruff', -- Python (faster)
+        'php-cs-fixer', -- PHP
+        'phpcbf', -- PHP
+        'shfmt', -- Shell
+        'taplo', -- TOML
+        'sql-formatter', -- SQL
+
+        -- Linters
+        'eslint_d', -- JavaScript/TypeScript
+        'ruff-lsp', -- Python
+        'pylint', -- Python
+        'cpplint', -- C/C++
+        'phpcs', -- PHP
+        'shellcheck', -- Shell
+        'hadolint', -- Dockerfile
+
+        -- Language Servers (if not already in servers table)
+        'lua-language-server',
+        'pyright',
+        'typescript-language-server',
+        'css-lsp',
+        'html-lsp',
+        'clangd',
+        'rust-analyzer',
+        'gopls',
+        'intelephense', -- PHP
+        'tailwindcss',
+        'graphql',
+        'docker-compose-language-service',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -379,7 +444,8 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.capabilities =
+              vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
         },
