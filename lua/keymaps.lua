@@ -79,3 +79,33 @@ end, {
   silent = true,
   desc = 'reload init.lua',
 })
+
+map('n', '<leader>tc', function()
+  local colorschemes = {
+    'tokyonight-night',
+    'tokyonight-storm',
+    'tokyonight-day',
+    'tokyonight-moon',
+    'rose-pine',
+    'rose-pine-moon',
+    'rose-pine-dawn',
+    'catppuccin-latte',
+    'catppuccin-frappe',
+    'catppuccin-macchiato',
+    'catppuccin-mocha',
+    'yugen',
+    'zitchdog-grape',
+  }
+
+  vim.ui.select(colorschemes, {
+    prompt = 'Choose colorscheme:',
+    format_item = function(item)
+      return 'Theme: ' .. item
+    end,
+  }, function(choice)
+    if choice then
+      vim.cmd.colorscheme(choice)
+      vim.notify('Switched to ' .. choice, vim.log.levels.INFO, { title = 'colorscheme' })
+    end
+  end)
+end, { desc = 'Select colorscheme' })

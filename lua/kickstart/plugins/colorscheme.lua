@@ -1,11 +1,25 @@
 return {
-  { -- You can easily change to a different colorscheme.
+  { -- Primary colorscheme
     'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    priority = 1000,
     init = function()
-      -- Load the colorscheme here.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- Set tokyonight as default colorscheme
+      vim.cmd.colorscheme 'tokyonight-moon'
       vim.cmd.hi 'Comment gui=none'
     end,
   },
+  { -- Additional colorschemes available
+    'theamallalgi/zitchdog',
+    priority = 1000,
+  },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    priority = 1000,
+  },
+  {
+    'bettervim/yugen.nvim',
+    priority = 1000,
+  },
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 }

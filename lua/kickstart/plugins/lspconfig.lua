@@ -16,6 +16,12 @@ return {
     },
 
     config = function()
+      require('mason').setup {
+        ui = {
+          check_outdated_packages_on_open = true,
+          border = 'rounded',
+        },
+      }
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -222,71 +228,40 @@ return {
         },
 
         -- Typescript
-        tsserver = {
-          filetypes = {
-            'javascript',
-            'javascriptreact',
-            'javascript.jsx',
-            'typescript',
-            'typescriptreact',
-            'typescript.tsx',
-          },
-          settings = {
-            typescript = {
-              inlayHints = {
-                includeInlayParameterNameHints = 'literal',
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = false,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-            javascript = {
-              inlayHints = {
-                includeInlayParameterNameHints = 'all',
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-          },
-        },
-        ocamllsp = {
-          manual_install = true,
-          settings = {
-            codelens = { enable = true },
-            inlayHints = { enable = true },
-            syntaxDocumentation = { enable = true },
-          },
-
-          -- get_language_id = function(lang)
-          --   local map = {
-          --     ["ocaml.mlx"] = "mlx",
-          --   }
-          --   return map[lang] or lang
-          -- end,
-
-          filetypes = {
-            'ocaml',
-            'ocaml.interface',
-            'ocaml.menhir',
-            'ocaml.cram',
-            'ocaml.mlx',
-            'ocaml.ocamllex',
-          },
-
-          server_capabilities = {
-            semanticTokensProvider = false,
-          },
-
-          -- TODO: Check if i still need the filtypes stuff i had before
-        },
-
+        -- tsserver = {
+        --   filetypes = {
+        --     'javascript',
+        --     'javascriptreact',
+        --     'javascript.jsx',
+        --     'typescript',
+        --     'typescriptreact',
+        --     'typescript.tsx',
+        --   },
+        --   settings = {
+        --     typescript = {
+        --       inlayHints = {
+        --         includeInlayParameterNameHints = 'literal',
+        --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        --         includeInlayFunctionParameterTypeHints = true,
+        --         includeInlayVariableTypeHints = false,
+        --         includeInlayPropertyDeclarationTypeHints = true,
+        --         includeInlayFunctionLikeReturnTypeHints = true,
+        --         includeInlayEnumMemberValueHints = true,
+        --       },
+        --     },
+        --     javascript = {
+        --       inlayHints = {
+        --         includeInlayParameterNameHints = 'all',
+        --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        --         includeInlayFunctionParameterTypeHints = true,
+        --         includeInlayVariableTypeHints = true,
+        --         includeInlayPropertyDeclarationTypeHints = true,
+        --         includeInlayFunctionLikeReturnTypeHints = true,
+        --         includeInlayEnumMemberValueHints = true,
+        --       },
+        --     },
+        --   },
+        -- },
         -- CSS
         cssls = {
           cmd = { 'vscode-css-language-server', '--stdio' },
@@ -397,7 +372,7 @@ return {
 
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
+      local ensure_installed_tools = {
         -- Formatters
         'stylua', -- Lua
         'prettier', -- Web
@@ -427,7 +402,6 @@ return {
         -- Language Servers (if not already in servers table)
         'lua-language-server',
         'pyright',
-        'typescript-language-server',
         'css-lsp',
         'html-lsp',
         'clangd',
@@ -437,10 +411,11 @@ return {
         'tailwindcss',
         'graphql',
         'docker-compose-language-service',
-      })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      }
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed_tools }
 
       require('mason-lspconfig').setup {
+        ensure_installed = ensure_installed,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}

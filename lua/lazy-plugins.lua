@@ -5,6 +5,7 @@ require('lazy').setup({
   require 'kickstart.plugins.which-key', -- Useful plugin to show you pending keybinds.
   require 'kickstart.plugins.telescope', -- Fuzzy Finder (files, lsp, etc)
   require 'kickstart.plugins.lspconfig', -- LSP Configuration & Plugins
+  require 'kickstart.plugins.vlime',
   require 'kickstart.plugins.conform', -- Autoformatting
   require 'kickstart.plugins.cmp', -- Autocompletion
   require 'kickstart.plugins.colorscheme', -- Colorscheme of tokynight, can be changed.
