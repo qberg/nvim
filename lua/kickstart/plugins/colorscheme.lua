@@ -2,11 +2,6 @@ return {
   { -- Primary colorscheme
     'folke/tokyonight.nvim',
     priority = 1000,
-    init = function()
-      -- Set tokyonight as default colorscheme
-      vim.cmd.colorscheme 'tokyonight-moon'
-      vim.cmd.hi 'Comment gui=none'
-    end,
   },
   { -- Additional colorschemes available
     'theamallalgi/zitchdog',
@@ -22,4 +17,12 @@ return {
     priority = 1000,
   },
   { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+  {
+    'RRethy/base16-nvim',
+    priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'base16-black-metal-bathory'
+      vim.cmd.hi 'Comment gui=none'
+    end,
+  },
 }

@@ -227,6 +227,14 @@ return {
           },
         },
 
+        ts_ls = {
+          init_options = {
+            preferences = {
+              importModuleSpecifierPreference = 'non-relative',
+            },
+          },
+        },
+
         -- Typescript
         -- tsserver = {
         --   filetypes = {

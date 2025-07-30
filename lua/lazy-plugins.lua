@@ -21,7 +21,8 @@ require('lazy').setup({
   -- require 'kickstart.plugins.oil',
   require 'kickstart.plugins.vim-tmux-navigator',
   -- require 'kickstart.plugins.headlines',
-  require 'kickstart.plugins.obsidian',
+  -- require 'kickstart.plugins.obsidian',
+  require 'kickstart.plugins.snacks',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

@@ -95,6 +95,7 @@ map('n', '<leader>tc', function()
     'catppuccin-mocha',
     'yugen',
     'zitchdog-grape',
+    'base16-black-metal-bathory',
   }
 
   vim.ui.select(colorschemes, {
