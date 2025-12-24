@@ -23,6 +23,14 @@ require('lazy').setup({
   -- require 'kickstart.plugins.headlines',
   -- require 'kickstart.plugins.obsidian',
   require 'kickstart.plugins.snacks',
+
+  -- enhancements for webdev
+  require 'kickstart.plugins.autotag',
+  require 'kickstart.plugins.surround',
+  require 'kickstart.plugins.colorizer',
+  require 'kickstart.plugins.tailwind-fold',
+  require 'kickstart.plugins.spectre',
+  require 'kickstart.plugins.trouble',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

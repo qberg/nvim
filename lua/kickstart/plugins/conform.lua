@@ -15,63 +15,6 @@ return {
     opts = {
       notify_on_error = false,
 
-      format_on_save = function(bufnr)
-        -- Add your specific filetype exclusions here
-        local disable_filetypes = {
-          c = true,
-          cpp = true,
-          cuda = true,
-          asm = true,
-        }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-
-      formatters_by_ft = {
-        -- Web Development (using prettierd with prettier fallback)
-        javascript = { { 'prettierd', 'prettier' } },
-        typescript = { { 'prettierd', 'prettier' } },
-        javascriptreact = { { 'prettierd', 'prettier' } },
-        typescriptreact = { { 'prettierd', 'prettier' } },
-        svelte = { { 'prettierd', 'prettier' } },
-        vue = { { 'prettierd', 'prettier' } },
-        css = { { 'prettierd', 'prettier' } },
-        scss = { { 'prettierd', 'prettier' } },
-        html = { { 'prettierd', 'prettier' } },
-        json = { { 'prettierd', 'prettier' } },
-        jsonc = { { 'prettierd', 'prettier' } },
-        yaml = { { 'prettierd', 'prettier' } },
-        markdown = { { 'prettierd', 'prettier' } },
-        graphql = { { 'prettierd', 'prettier' } },
-
-        -- Systems Programming
-        c = { 'clang_format' },
-        cpp = { 'clang_format' },
-        cuda = { 'clang_format' },
-        rust = { 'rustfmt' },
-        go = { 'gofumpt', 'goimports' },
-
-        -- Python
-        python = { 'ruff_format', 'black', 'isort' }, -- ruff is faster
-
-        -- PHP
-        php = { 'php_cs_fixer', 'phpcbf' },
-
-        -- Configuration & Markup
-        lua = { 'stylua' },
-        toml = { 'taplo' },
-
-        -- Shell
-        sh = { 'shfmt' },
-        bash = { 'shfmt' },
-
-        -- Database
-        sql = { 'sql_formatter' },
-      },
-
-      -- Formatter-specific configurations
       formatters = {
         clang_format = {
           prepend_args = {
@@ -88,6 +31,12 @@ return {
             '--trailing-comma',
             'es5',
           },
+        },
+
+        biome = {
+          stdin = true,
+          args = { 'check', '--write', '--stdin-file-path', '$FILENAME' },
+          require_cwd = true,
         },
 
         -- Match your Go settings with gopls configuration
@@ -116,6 +65,66 @@ return {
         ruff_format = {
           prepend_args = { '--line-length=100' },
         },
+      },
+
+      format_on_save = function(bufnr)
+        -- Add your specific filetype exclusions here
+        local disable_filetypes = {
+          c = true,
+          cpp = true,
+          cuda = true,
+          asm = true,
+        }
+        return {
+          timeout_ms = 500,
+          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+        }
+      end,
+
+      formatters_by_ft = {
+        -- Web Development (using prettierd with prettier fallback)
+        javascript = { 'biome', 'prettier', stop_after_first = true },
+        typescript = { 'biome', 'prettier', stop_after_first = true },
+        javascriptreact = { 'biome', 'prettier', stop_after_first = true },
+        typescriptreact = { 'biome', 'prettier', stop_after_first = true },
+        json = { 'biome', 'prettier', stop_after_first = true },
+        -- javascript = { 'biome', 'biome-organize-imports' },
+        -- javascriptreact = { 'biome', 'biome-organize-imports' },
+        -- typescript = { 'biome', 'biome-organize-imports' },
+        -- typescriptreact = { 'biome', 'biome-organize-imports' },
+        svelte = { 'prettierd', 'prettier', stop_after_first = true },
+        vue = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        graphql = { 'prettierd', 'prettier', stop_after_first = true },
+
+        -- Systems Programming
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
+        cuda = { 'clang_format' },
+        rust = { 'rustfmt' },
+        go = { 'gofumpt', 'goimports' },
+
+        -- Python
+        python = { 'ruff_format', 'black', 'isort' }, -- ruff is faster
+
+        -- PHP
+        php = { 'php_cs_fixer', 'phpcbf' },
+
+        -- Configuration & Markup
+        lua = { 'stylua' },
+        toml = { 'taplo' },
+
+        -- Shell
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
+
+        -- Database
+        sql = { 'sql_formatter' },
       },
     },
   },

@@ -233,6 +233,25 @@ return {
               importModuleSpecifierPreference = 'non-relative',
             },
           },
+
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'literals', -- 'none' | 'literals' | 'all'
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+
+              updateImportsOnFileMove = {
+                enabled = 'always',
+              },
+            },
+          },
         },
 
         -- Typescript
@@ -329,6 +348,27 @@ return {
           },
         },
 
+        -- Emmet: Adds 'div.container>ul>li*3' expansions to React/HTML
+        emmet_language_server = {
+          filetypes = {
+            'css',
+            'eruby',
+            'html',
+            'javascript',
+            'javascriptreact',
+            'less',
+            'sass',
+            'scss',
+            'pug',
+            'typescriptreact',
+          },
+          -- Read more about this specific server to customize snippet behavior
+        },
+
+        -- Biome: Adds in-editor linting (red squigglies) for JS/TS
+        -- Note: Formatting is handled by Conform, but this gives you the diagnostics
+        biome = {},
+
         -- NGINX
         -- nginx_language_server = {
         --   cmd = { 'nginx-language-server' },
@@ -397,6 +437,8 @@ return {
         'shfmt', -- Shell
         'taplo', -- TOML
         'sql-formatter', -- SQL
+
+        'biome', --cool kid on the js block
 
         -- Linters
         'eslint_d', -- JavaScript/TypeScript
