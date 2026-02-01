@@ -28,8 +28,6 @@ require('lazy').setup({
   require 'kickstart.plugins.autotag',
   require 'kickstart.plugins.surround',
   require 'kickstart.plugins.colorizer',
-  require 'kickstart.plugins.tailwind-fold',
-  require 'kickstart.plugins.spectre',
   require 'kickstart.plugins.trouble',
 }, {
   ui = {
