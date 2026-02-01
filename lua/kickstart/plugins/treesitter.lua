@@ -1,49 +1,72 @@
 return {
-  { -- Highlight, edit, and navigate code
+  {
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
+    branch = 'main',
     build = ':TSUpdate',
+    lazy = false,
     opts = {
       ensure_installed = {
+        'astro',
         'bash',
         'c',
         'css',
-        'dockerfile',
         'diff',
-        'gitignore',
-        'graphql',
         'go',
+        'graphql',
         'html',
-        'http',
         'javascript',
+        'jsdoc',
         'json',
         'lua',
         'luadoc',
         'markdown',
         'markdown_inline',
         'python',
-        'sql',
-        'rust',
+        'query',
         'regex',
-        'terraform',
+        'toml',
         'tsx',
         'typescript',
-        'toml',
         'vim',
         'vimdoc',
         'yaml',
+        'ruby',
       },
-      auto_install = true,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
     },
     config = function(_, opts)
-      require('nvim-treesitter.install').prefer_git = true
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup(opts)
+      local ts = require 'nvim-treesitter'
+
+      -- Call the new setup (minimalist)
+      ts.setup {
+        install_dir = vim.fn.stdpath 'data' .. '/site',
+      }
+
+      -- Modern installation call
+      if opts.ensure_installed then
+        ts.install(opts.ensure_installed)
+      end
+
+      -- Native Highlighting & Indent (The Kickstart/Top 1% way)
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
+        callback = function(args)
+          local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+          if not lang then
+            return
+          end
+
+          -- Native highlight start
+          pcall(vim.treesitter.start, args.buf)
+
+          -- Native indentexpr
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = 'BufReadPost',
+    opts = { max_lines = 3 },
   },
 }
