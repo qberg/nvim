@@ -23,6 +23,14 @@ require('lazy').setup({
   -- require 'kickstart.plugins.headlines',
   -- require 'kickstart.plugins.obsidian',
   require 'kickstart.plugins.snacks',
+  require 'kickstart.plugins.render-markdown',
+
+  require 'kickstart.plugins.neorg',
+  {
+    'gisketch/triforce.nvim',
+    dependencies = { 'nvzone/volt' },
+    opts = {},
+  },
 
   -- enhancements for webdev
   require 'kickstart.plugins.autotag',

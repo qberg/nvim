@@ -11,9 +11,22 @@ return {
     picker = { enabled = true },
     quickfile = { enabled = true },
     scroll = { enabled = true },
-    statuscolumn = { enabled = false },
-    words = { enabled = false },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
     notifier = { enabled = false },
+    zen = {
+      toggles = {
+        dim = false,
+      },
+      center = true,
+      win = {
+        width = 100,
+        backdrop = {
+          transparent = false,
+          blend = 0,
+        },
+      },
+    },
   },
   keys = {
     {
