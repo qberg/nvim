@@ -38,6 +38,9 @@ require('lazy').setup({
   require 'kickstart.plugins.colorizer',
   require 'kickstart.plugins.trouble',
 
+  -- gitlife
+  require 'kickstart.plugins.diffview',
+
   { import = 'custom.plugins' },
 }, {
   ui = {
