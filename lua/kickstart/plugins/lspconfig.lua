@@ -301,12 +301,25 @@ return {
                 unknownAtRules = 'ignore',
               },
             },
+            scss = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+            less = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
           },
         },
 
         -- TailwindCSS
         tailwindcss = {
           filetypes = {
+            'css',
             'html',
             'mdx',
             'javascript',

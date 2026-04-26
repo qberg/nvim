@@ -26,20 +26,22 @@ require('lazy').setup({
   require 'kickstart.plugins.render-markdown',
 
   require 'kickstart.plugins.neorg',
-  {
-    'gisketch/triforce.nvim',
-    dependencies = { 'nvzone/volt' },
-    opts = {},
-  },
 
   -- enhancements for webdev
   require 'kickstart.plugins.autotag',
-  require 'kickstart.plugins.surround',
   require 'kickstart.plugins.colorizer',
   require 'kickstart.plugins.trouble',
 
   -- gitlife
   require 'kickstart.plugins.diffview',
+
+  -- functional way
+  require 'kickstart.plugins.metals',
+  require 'kickstart.plugins.haskell',
+
+  -- best practices
+  require 'kickstart.plugins.hardtime',
+  require 'kickstart.plugins.quick-scope',
 
   { import = 'custom.plugins' },
 }, {

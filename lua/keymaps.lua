@@ -110,3 +110,6 @@ map('n', '<leader>tc', function()
     end
   end)
 end, { desc = 'Select colorscheme' })
+
+-- Marks management
+map('n', '<leader>dm', ':delmarks a-z<CR>', { noremap = true })
