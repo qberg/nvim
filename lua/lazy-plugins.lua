@@ -25,8 +25,6 @@ require('lazy').setup({
   require 'kickstart.plugins.snacks',
   require 'kickstart.plugins.render-markdown',
 
-  require 'kickstart.plugins.neorg',
-
   -- enhancements for webdev
   require 'kickstart.plugins.autotag',
   require 'kickstart.plugins.colorizer',
@@ -38,6 +36,7 @@ require('lazy').setup({
   -- functional way
   require 'kickstart.plugins.metals',
   require 'kickstart.plugins.haskell',
+  require 'kickstart.plugins.lean',
 
   -- best practices
   require 'kickstart.plugins.hardtime',
