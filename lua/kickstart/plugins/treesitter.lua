@@ -31,6 +31,8 @@ return {
         'vimdoc',
         'yaml',
         'ruby',
+        'terraform',
+        'hcl',
       },
     },
     config = function(_, opts)

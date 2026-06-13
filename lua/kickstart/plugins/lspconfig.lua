@@ -97,7 +97,9 @@ return {
         jdtls = {},
 
         dockerls = {},
-        terraformls = {},
+        terraformls = {
+          filetypes = { 'terraform', 'terraform-vars' },
+        },
 
         -- Lua
         lua_ls = {
@@ -474,6 +476,10 @@ return {
         'tailwindcss',
         'graphql',
         'docker-compose-language-service',
+
+        -- Terraform & HCL
+        'tflint', -- Deep, provider-aware linting
+        'hclfmt', -- Generic HCL formatter
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed_tools }
 

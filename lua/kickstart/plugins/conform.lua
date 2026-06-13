@@ -65,6 +65,12 @@ return {
         ruff_format = {
           prepend_args = { '--line-length=100' },
         },
+
+        tofu_fmt = {
+          command = 'tofu',
+          args = { 'fmt', '-' },
+          stdin = true,
+        },
       },
 
       format_on_save = function(bufnr)
@@ -125,6 +131,12 @@ return {
 
         -- Database
         sql = { 'sql_formatter' },
+
+        -- Terraform & HCL
+        terraform = { 'tofu_fmt', 'terraform_fmt', stop_after_first = true },
+        tf = { 'tofu_fmt', 'terraform_fmt', stop_after_first = true },
+        ['terraform-vars'] = { 'tofu_fmt', 'terraform_fmt', stop_after_first = true },
+        hcl = { 'hclfmt' },
       },
     },
   },
