@@ -1,7 +1,8 @@
 return {
   {
     'stevearc/conform.nvim',
-    lazy = false,
+    event = { 'BufWritePre' }, -- lazy: load right before first save (format_on_save)
+    cmd = { 'ConformInfo' },
     keys = {
       {
         '<leader>f',
