@@ -3,6 +3,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' }, -- lazy: only when a real file opens
     dependencies = {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
@@ -10,9 +11,7 @@ return {
       'b0o/schemastore.nvim',
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
-      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-      -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim', opts = {} },
+      -- NOTE: Lua dev annotations handled by lazydev.nvim (see cmp.lua); neodev removed.
     },
 
     config = function()
@@ -439,7 +438,6 @@ return {
         },
       }
 
-      require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
       local ensure_installed_tools = {
         -- Formatters
