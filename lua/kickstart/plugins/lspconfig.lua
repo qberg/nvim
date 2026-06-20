@@ -296,23 +296,29 @@ return {
           cmd = { 'vscode-css-language-server', '--stdio' },
           filetypes = { 'css', 'scss' },
           single_file_support = true,
+          on_init = function(client)
+            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+          end,
           settings = {
             css = {
               validate = true,
               lint = {
                 unknownAtRules = 'ignore',
+                emptyRules = 'ignore',
               },
             },
             scss = {
               validate = true,
               lint = {
                 unknownAtRules = 'ignore',
+                emptyRules = 'ignore',
               },
             },
             less = {
               validate = true,
               lint = {
                 unknownAtRules = 'ignore',
+                emptyRules = 'ignore',
               },
             },
           },
@@ -483,17 +489,58 @@ return {
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed_tools }
 
+      -- mason-lspconfig v2 removed `handlers` and auto-enables installed
+      -- servers via vim.lsp.enable(), which merges whatever vim.lsp.config()
+      -- registered. Per-server settings MUST go through vim.lsp.config() now.
+      for server_name, server in pairs(servers) do
+        server.capabilities =
+          vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        vim.lsp.config(server_name, server)
+      end
+
       require('mason-lspconfig').setup {
         ensure_installed = ensure_installed,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            server.capabilities =
-              vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
       }
+
+      -- nvim 0.12 ships a core `:lsp` command, so nvim-lspconfig skips its
+      -- own :Lsp* commands (guard in plugin/lspconfig.lua). Re-add wrappers
+      -- over the native vim.lsp API.
+      local function buf_clients()
+        return vim.lsp.get_clients { bufnr = 0 }
+      end
+
+      vim.api.nvim_create_user_command('LspInfo', 'checkhealth vim.lsp', { desc = 'LSP: info/health' })
+
+      vim.api.nvim_create_user_command('LspLog', function()
+        vim.cmd.tabedit(vim.lsp.get_log_path())
+      end, { desc = 'LSP: open log' })
+
+      vim.api.nvim_create_user_command('LspStop', function()
+        for _, c in ipairs(buf_clients()) do
+          vim.lsp.stop_client(c.id)
+        end
+      end, { desc = 'LSP: stop clients on buffer' })
+
+      vim.api.nvim_create_user_command('LspStart', function()
+        vim.api.nvim_exec_autocmds('FileType', { buffer = 0 })
+      end, { desc = 'LSP: (re)attach clients to buffer' })
+
+      vim.api.nvim_create_user_command('LspRestart', function()
+        local bufs = {}
+        for _, c in ipairs(buf_clients()) do
+          for b in pairs(c.attached_buffers or {}) do
+            bufs[b] = true
+          end
+          vim.lsp.stop_client(c.id)
+        end
+        vim.defer_fn(function()
+          for b in pairs(bufs) do
+            if vim.api.nvim_buf_is_valid(b) then
+              vim.api.nvim_exec_autocmds('FileType', { buffer = b })
+            end
+          end
+        end, 300)
+      end, { desc = 'LSP: restart clients on buffer' })
     end,
   },
 }
